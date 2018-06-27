@@ -6,30 +6,95 @@ class Point {
 }
 
 var selectedPoints = [];
+var pointSections = [];
+
+function tryNewPoint(x, y, remove=false){
+  let point = new Point(x, y);
+  let index = selectedPoints.findIndex(p => p.x === point.x && p.y === point.y);
+  if(index === -1){
+    selectedPoints.push(point);
+    $("#mb"+point.x+"-"+point.y).css('background-color', '#000');
+    return true;
+  }else if(remove){
+    selectedPoints.splice(index, 1);
+    $("#mb"+point.x+"-"+point.y).css('background-color', '');
+    return false;
+  }
+}
+
+function fillSection(endPoint){
+  if(selectedPoints.length < 1){
+    tryNewPoint(endPoint.x, endPoint.y, true);
+    return;
+  }
+
+  let lastPoint = selectedPoints[selectedPoints.length - 1];
+  let section = [];
+
+  let btnGroup = $(".matrix-btn-group")
+  if(lastPoint.x == endPoint.x){ // same row
+    if(lastPoint.y < endPoint.y){
+      for(var i = lastPoint.y + 1; i <= endPoint.y; ++i){
+        let added = tryNewPoint(lastPoint.x, i);
+        if(added){
+          section.push(new Point(lastPoint.x, i));
+        }
+      }
+    }else{
+      for(var i = lastPoint.y - 1; i >= endPoint.y; --i){
+        let added = tryNewPoint(lastPoint.x, i);
+        if(added){
+          section.push(new Point(lastPoint.x, i));
+        }
+      }
+    }
+  }else if(lastPoint.y == endPoint.y){ // same row
+    if(lastPoint.x < endPoint.x){
+      for(var i = lastPoint.x + 1; i <= endPoint.x; ++i){
+        let added = tryNewPoint(i, lastPoint.y);
+        if(added){
+          section.push(new Point(i, lastPoint.y));
+        }
+      }
+    }else{
+      for(var i = lastPoint.x - 1; i >= endPoint.x; --i){
+        let added = tryNewPoint(i, lastPoint.y);
+        if(added){
+          section.push(new Point(i, lastPoint.y));
+        }
+      }
+
+    }
+  }
+  if(section.length > 0){
+    pointSections.push(section);
+  }
+  toggle_reverse_btn()
+}
+
+function toggle_reverse_btn(){
+  if(pointSections.length > 0){
+    $("#reverse-btn").show(500);
+  }else{
+    $("#reverse-btn").hide(500);
+  }
+}
 
 $(function(){
   $(".matrix-btn-group button").on('click', function(event){
     event.preventDefault();
     let btn = $(this);
     let row = btn.data('row'), col = btn.data('col');
-    let hoveredBackgroundColor = 'rgb(230, 230, 230)'
-    let bgColor = btn.css('background-color');
-
-    if(bgColor == hoveredBackgroundColor){
-      // Not selected, set selected
-      btn.css('background-color', '#000');
-    }else{
-      // Selected, unselect
-      btn.css('background-color', '');
-    }
 
     let point = new Point(row, col);
-    let index = selectedPoints.findIndex(p => p.x === point.x && p.y === point.y);
-    if(index === -1){
-      selectedPoints.push(point);
+    let sel_type = $("#selection-type-btn").data('sel-type');
+
+    if(sel_type == 'single'){
+      tryNewPoint(row, col, true);
     }else{
-      selectedPoints.splice(index, 1);
+      fillSection(point);
     }
+
   });
 
   $("#submit-matrix").on('click', function(event){
@@ -51,6 +116,42 @@ $(function(){
         populateModal(points);
       }
     });
+  });
+
+  $("#selection-type-btn").on('click', function(event){
+    event.preventDefault();
+    let btn = $(this);
+    let sel_type = btn.data('sel-type');
+    let text_span = btn.find('span');
+
+    if(sel_type == 'single'){
+      btn.text("Seleção Multipla");
+      btn.data('sel-type', 'multiple');
+      btn.removeClass('btn-warning');
+      btn.addClass('btn-success');
+    }else{
+      btn.text("Seleção Unitária");
+      btn.data('sel-type', 'single');
+      btn.removeClass('btn-success');
+      btn.addClass('btn-warning');
+    }
+  });
+
+  $("#reverse-btn").on('click', function(event){
+    if(pointSections.length > 0){
+      lastSection = pointSections.pop();
+      console.log(lastSection);
+      for(var i = 0; i < lastSection.length; ++i){
+        let x = lastSection[i].x, y = lastSection[i].y;
+        let index = selectedPoints.findIndex(p => p.x === x && p.y === y);
+        console.log("Trying to remove (",+x+", "+y+"), found index: "+index);
+        if(index !== -1){
+          $("#mb"+x+"-"+y).css('background-color', '');
+          selectedPoints.splice(index, 1);
+        }
+      }
+    }
+    toggle_reverse_btn();
   });
 });
 
