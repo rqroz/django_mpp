@@ -121,6 +121,7 @@ void ler_arquivo(){
 			string py = line.substr(pos+1);
 			int x = atoi(px.c_str()), y = atoi(py.c_str());
 			M[x][y]= 1;
+
 			n++;
 		}
 		points_file.close();
@@ -138,6 +139,15 @@ void imprime_arquivo(){
 		points_file.close();
 
 		Mat img(320, 320, CV_8UC1, Scalar(255));
+
+		for(int i=0; i<MAXN; i++)
+			for(int j=0; j<MAXN; j++)
+				if(M[i][j]!=0){
+					Point A(j*10-5, i*10-5);
+					Point B(j*10+9-5, i*10+9-5);
+					rectangle(img, A, B, Scalar(127), 1, CV_AA, 0);
+				}
+
 		vector<Point> ps;
 		for(int i=0; i<poly.size(); ++i)
 			ps.push_back(Point(10*poly[i].y, 10*poly[i].x));
@@ -155,27 +165,6 @@ void imprime_arquivo(){
 	else cout << "Could not open the file...\n";
 }
 
-void ler_padrao(){
-	cin >> n;
-	for(int i=0, x, y; i<n; i++){
-		cin >> x >> y;
-		x--; y--;
-		M[x][y]= 1;
-	}
-	for(int i=0; i<MAXN; i++){
-		for(int j=0; j<MAXN; j++){
-			if(M[i][j]!=0) cout << "#";
-			else cout << " ";
-		}
-		cout << endl;
-	}
-}
-
-void imprime_padrao(){
-	// cout << "size(Poly): " << poly.size() << endl;
-	for(int i=0; i<poly.size(); i++) cout << "(" << poly[i].x << ", " << poly[i].y << ")\n";
-	//for(int i=0; i<v.size(); i++) cout << "(" << v[i].x+1. << ", " << v[i].y+1. << ")\n";
-}
 bool entrada_valida(){
 	for(int i=0; i<MAXN; i++){
 		for(int j=0; j<MAXN; j++){

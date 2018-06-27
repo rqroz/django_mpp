@@ -5,6 +5,7 @@ import os, subprocess
 
 class IndexView(View):
     matrix_dim = 32
+    command_line = BASE_DIR+'/website/opencv/cfiles/MPP'
 
     def get(self, request, *args, **kwargs):
         context = {
@@ -17,8 +18,8 @@ class IndexView(View):
         points = create_points_from_json(json_points_str)
         write_points_to_file(points)
 
-        command_line = BASE_DIR+'/website/opencv/cfiles/MPP'
-        os.system(command_line)
+
+        os.system(self.command_line)
 
         context = {}
         r_points = recover_points_from_file()
