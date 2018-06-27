@@ -7,13 +7,13 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <ul id="resulting-points-list" class="list-unstyled">
 
             </ul>
           </div>
-          <div class="col-md-6">
-            <img src="{% static 'img/opencv/contour.png' %}" style="border: 1px solid gray;"></img>
+          <div class="col-md-8">
+            <img id="result-img" src="{% static 'img/opencv/result.png' %}" style="border: 1px solid gray;"></img>
           </div>
         </div>
       </div>
@@ -23,3 +23,6 @@
     </div>
   </div>
 </div>
+<script>
+  let img_url = "{% static 'img/opencv/result.png' %}";
+</script>

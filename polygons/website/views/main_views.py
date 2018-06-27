@@ -1,7 +1,7 @@
 from .modules import *
 from website.opencv.processor import *
 
-import os
+import os, subprocess
 
 class IndexView(View):
     matrix_dim = 32
@@ -17,7 +17,8 @@ class IndexView(View):
         points = create_points_from_json(json_points_str)
         write_points_to_file(points)
 
-        os.system(BASE_DIR+'/website/opencv/cfiles/MPP')
+        command_line = BASE_DIR+'/website/opencv/cfiles/MPP'
+        os.system(command_line)
 
         context = {}
         r_points = recover_points_from_file()
@@ -25,6 +26,5 @@ class IndexView(View):
             context['points'] = json.dumps([ob.__dict__ for ob in r_points])
         else:
             context['error'] = 'Os pontos fornecidos não são válidos para este algorítimo.'
-
 
         return JsonResponse(context, safe=False)

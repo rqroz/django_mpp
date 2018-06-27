@@ -34,6 +34,11 @@ $(function(){
 
   $("#submit-matrix").on('click', function(event){
     event.preventDefault();
+    if(selectedPoints.length < 1){
+        bootbox.alert("<center>Escolha um contorno...</center>");
+        return;
+    }
+
     let stringifiedPoints = JSON.stringify(selectedPoints)
     let data = {'points': stringifiedPoints};
 
@@ -60,5 +65,8 @@ function populateModal(points){
   }
 
   resulting_list.html(points_list_html);
+
+  document.getElementById("result-img").src = img_url + "?t=" + new Date().getTime();
+
   modal.modal('show');
 }

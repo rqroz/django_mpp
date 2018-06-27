@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
-#include <vector>
-#include <opencv2/opencv.hpp>
 
 #define ld double
 #define debug cout<<"!!!\n"
 using namespace std;
-using namespace cv;
 
 int cmp(ld x, ld y = 0, ld tol = 0.001) { return (x <= y + tol) ? (x + tol < y) ? -1 : 0 : 1; }
 struct point{
@@ -136,25 +133,9 @@ void imprime_arquivo(){
 		for(int i=0; i<poly.size(); i++)
 			points_file << poly[i].x << " " << poly[i].y << endl;
 		points_file.close();
-
-		Mat img(320, 320, CV_8UC1, Scalar(255));
-		vector<Point> ps;
-		for(int i=0; i<poly.size(); ++i)
-			ps.push_back(Point(10*poly[i].y, 10*poly[i].x));
-
-		for(int i=0; i<poly.size() - 1; ++i){
-			line(img, ps[i], ps[i+1], Scalar(0), 1, CV_AA, 0);
-		}
-		line(img, ps[poly.size()-1], ps[0], Scalar(0), 1, CV_AA, 0);
-
-		bool saved = imwrite("/home/rqroz/Desktop/polygon_finder/polygons/website/static/img/opencv/result.png", img);
-		// bool saved = imwrite("../../static/img/opencv/result.png", img);
-		// imwrite("../../static/img/opencv/result_copy.png", img);
-		cout << "saved: " << saved << endl;
 	}
 	else cout << "Could not open the file...\n";
 }
-
 void ler_padrao(){
 	cin >> n;
 	for(int i=0, x, y; i<n; i++){
