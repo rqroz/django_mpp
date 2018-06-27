@@ -1,0 +1,30 @@
+.navbar-default {
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
+}
+
+/* The heart of the matter */
+.matrix-btn-group > .btn:nth-child(32n+33) {
+  clear: left;
+  margin-left: 0;
+}
+.matrix-btn-group > .btn:nth-child(n+33) {
+  margin-top: -1px;
+}
+.matrix-btn-group > .btn:first-child {
+  border-bottom-left-radius: 0;
+}
+.matrix-btn-group > .btn:nth-child(32) {
+  border-top-right-radius: 4px !important;
+}
+.matrix-btn-group > .btn:nth-last-child(32) {
+  border-bottom-left-radius: 4px !important;
+}
+.matrix-btn-group > .btn:last-child {
+  border-top-right-radius: 0;
+}
+
+/* Decorations */
+.matrix-btn-group {
+  margin: 20px;
+}

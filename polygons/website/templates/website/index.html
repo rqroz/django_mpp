@@ -1,9 +1,36 @@
 {% extends "website/base/base.html" %}
 {% load static %}
-
+{% load website_template_tags %}
 {% block page_title %} Index {% endblock %}
 
 {% block content %}
-Hello World 
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h3><i class="fas fa-arrow-down"></i>&nbsp;Selecione pixels abaixo de forma a fechar um contorno&nbsp;<i class="fas fa-arrow-down"></i></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <center>
+          <div class="btn-group matrix-btn-group">
+          {% for i in matrix_dim|makelist %}
+            {% for j in matrix_dim|makelist %}
+              <button type="button" class="btn btn-default" data-row="{{i}}" data-col="{{j}}"></button>
+            {% endfor %}
+          {% endfor %}
+          </div>
+      </center>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a id="submit-matrix" class="btn btn-info">Testar</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% include "website/modals/wait_modal.html" %}
+<script  src="{% static 'js/index.js' %}"></script>
 {% endblock %}
