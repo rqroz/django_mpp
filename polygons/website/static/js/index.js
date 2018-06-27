@@ -10,10 +10,10 @@ var selectedPoints = [];
 $(function(){
   $(".matrix-btn-group button").on('click', function(event){
     event.preventDefault();
-    var btn = $(this);
-    var row = btn.data('row'), col = btn.data('col');
-    var hoveredBackgroundColor = 'rgb(230, 230, 230)'
-    var bgColor = btn.css('background-color');
+    let btn = $(this);
+    let row = btn.data('row'), col = btn.data('col');
+    let hoveredBackgroundColor = 'rgb(230, 230, 230)'
+    let bgColor = btn.css('background-color');
 
     if(bgColor == hoveredBackgroundColor){
       // Not selected, set selected
@@ -38,10 +38,27 @@ $(function(){
     let data = {'points': stringifiedPoints};
 
     $.post("/", data, function(response){
-      if(response.points !== undefined){
-        let points = JSON.parse(response.points)
-        console.log(points)
+      if(response.error !== undefined){
+        bootbox.alert(response.error);
+      }else if(response.points !== undefined){
+        let points = JSON.parse(response.points);
+        console.log(points);
+        populateModal(points);
       }
-    })
+    });
   });
-})
+});
+
+function populateModal(points){
+  let modal = $("#result-modal");
+  let resulting_list = modal.find('#resulting-points-list');
+  var points_list_html = "Pontos Resultantes:";
+
+  for(var i = 0; i < points.length; ++i){
+    let p = points[i];
+    points_list_html += "<li class='list-item'> ("+p.x+", "+p.y+") </li>"
+  }
+
+  resulting_list.html(points_list_html);
+  modal.modal('show');
+}

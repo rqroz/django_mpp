@@ -24,6 +24,14 @@
   border-top-right-radius: 0;
 }
 
+.matrix-btn-group > .btn {
+  min-width: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  padding: 0px;
+}
+
 /* Decorations */
 .matrix-btn-group {
   margin: 20px;
