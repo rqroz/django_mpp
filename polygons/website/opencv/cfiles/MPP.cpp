@@ -145,7 +145,7 @@ void imprime_arquivo(){
 				if(M[i][j]!=0){
 					Point A(j*10-5, i*10-5);
 					Point B(j*10+9-5, i*10+9-5);
-					rectangle(img, A, B, Scalar(127), 1, CV_AA, 0);
+					rectangle(img, A, B, Scalar(200), CV_FILLED, CV_AA, 0);
 				}
 
 		vector<Point> ps;
