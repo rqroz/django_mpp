@@ -22,6 +22,13 @@ function tryNewPoint(x, y, remove=false){
   }
 }
 
+function addPointInSection(x, y, section){
+  let added = tryNewPoint(x, y);
+  if(added){
+    section.push(new Point(x, y));
+  }
+}
+
 function fillSection(endPoint){
   if(selectedPoints.length < 1){
     tryNewPoint(endPoint.x, endPoint.y, true);
@@ -33,68 +40,90 @@ function fillSection(endPoint){
 
   let btnGroup = $(".matrix-btn-group")
   if(lastPoint.x == endPoint.x){ // same row
-    if(lastPoint.y < endPoint.y){
+    if(lastPoint.y < endPoint.y){ // left to right
       for(var i = lastPoint.y + 1; i <= endPoint.y; ++i){
-        let added = tryNewPoint(lastPoint.x, i);
-        if(added){
-          section.push(new Point(lastPoint.x, i));
-        }
+        addPointInSection(lastPoint.x, i, section);
       }
-    }else{
+    }else{ // right to left
       for(var i = lastPoint.y - 1; i >= endPoint.y; --i){
-        let added = tryNewPoint(lastPoint.x, i);
-        if(added){
-          section.push(new Point(lastPoint.x, i));
-        }
+        addPointInSection(lastPoint.x, i, section);
       }
     }
-  }else if(lastPoint.y == endPoint.y){ // same row
-    if(lastPoint.x < endPoint.x){
+  }else if(lastPoint.y == endPoint.y){ // same col
+    if(lastPoint.x < endPoint.x){ // top down
       for(var i = lastPoint.x + 1; i <= endPoint.x; ++i){
-        let added = tryNewPoint(i, lastPoint.y);
-        if(added){
-          section.push(new Point(i, lastPoint.y));
-        }
+        addPointInSection(i, lastPoint.y, section);
       }
-    }else{
+    }else{ // bottom up
       for(var i = lastPoint.x - 1; i >= endPoint.x; --i){
-        let added = tryNewPoint(i, lastPoint.y);
-        if(added){
-          section.push(new Point(i, lastPoint.y));
-        }
+        addPointInSection(i, lastPoint.y, section);
       }
 
     }
   }
+
   if(section.length > 0){
     pointSections.push(section);
   }
+
   toggle_reverse_btn()
 }
 
 function toggle_reverse_btn(){
   if(pointSections.length > 0){
-    $("#reverse-btn").show(500);
+    $("#reverse-btn-container").slideDown(500);
   }else{
-    $("#reverse-btn").hide(500);
+    $("#reverse-btn-container").slideUp(500);
   }
 }
 
+
+function populateModal(points){
+  let modal = $("#result-modal");
+  let resulting_list = modal.find('#resulting-points-list');
+  var points_list_html = "Pontos Resultantes:";
+
+  for(var i = 0; i < points.length; ++i){
+    let p = points[i];
+    points_list_html += "<li class='list-item'> ("+p.x+", "+p.y+") </li>"
+  }
+
+  resulting_list.html(points_list_html);
+
+  document.getElementById("result-img").src = img_url + "?t=" + new Date().getTime();
+
+  modal.modal('show');
+}
+
 $(function(){
+  $('.popover-dismiss').popover({
+    trigger: 'focus'
+  });
+  
+  $("#mpp-popover").popover({
+      html : true,
+      content: function() {
+        return "ha"
+        // return $("#mpp-popover-content").html();
+      },
+      title: function() {
+        return $("#mpp-popover-title").html();
+      }
+  });
+
+
   $(".matrix-btn-group button").on('click', function(event){
     event.preventDefault();
     let btn = $(this);
     let row = btn.data('row'), col = btn.data('col');
 
     let point = new Point(row, col);
-    let sel_type = $("#selection-type-btn").data('sel-type');
 
-    if(sel_type == 'single'){
-      tryNewPoint(row, col, true);
-    }else{
+    if($(".switch input").is(":checked")){
       fillSection(point);
+    }else{
+      tryNewPoint(row, col, true);
     }
-
   });
 
   $("#submit-matrix").on('click', function(event){
@@ -118,25 +147,6 @@ $(function(){
     });
   });
 
-  $("#selection-type-btn").on('click', function(event){
-    event.preventDefault();
-    let btn = $(this);
-    let sel_type = btn.data('sel-type');
-    let text_span = btn.find('span');
-
-    if(sel_type == 'single'){
-      btn.text("Seleção Multipla");
-      btn.data('sel-type', 'multiple');
-      btn.removeClass('btn-warning');
-      btn.addClass('btn-success');
-    }else{
-      btn.text("Seleção Unitária");
-      btn.data('sel-type', 'single');
-      btn.removeClass('btn-success');
-      btn.addClass('btn-warning');
-    }
-  });
-
   $("#reverse-btn").on('click', function(event){
     if(pointSections.length > 0){
       lastSection = pointSections.pop();
@@ -154,20 +164,3 @@ $(function(){
     toggle_reverse_btn();
   });
 });
-
-function populateModal(points){
-  let modal = $("#result-modal");
-  let resulting_list = modal.find('#resulting-points-list');
-  var points_list_html = "Pontos Resultantes:";
-
-  for(var i = 0; i < points.length; ++i){
-    let p = points[i];
-    points_list_html += "<li class='list-item'> ("+p.x+", "+p.y+") </li>"
-  }
-
-  resulting_list.html(points_list_html);
-
-  document.getElementById("result-img").src = img_url + "?t=" + new Date().getTime();
-
-  modal.modal('show');
-}

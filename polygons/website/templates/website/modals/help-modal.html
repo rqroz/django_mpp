@@ -1,0 +1,20 @@
+{% load static %}
+<div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="result-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Needing Help?</h4>
+      </div>
+      <div class="modal-body">
+        <div id="help-demonstration">
+          <p>This is a visualization of what the algorithm will try to accomplish:</p>
+          <img src="{% static 'img/mpp-example.png'%}"></img>
+        </div>
+        <br/>
+        <div id="help-explanation">
+          <p>Now that you have a greater ideia of what we will be doing, try to fill the grid such that your border is like the one in the middle figure. Anything other than a closed figure may result in unexpected behaviour, so be sure to close the borders.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
