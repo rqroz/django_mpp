@@ -175,3 +175,7 @@ input:checked + .slider:before {
 .no-decoration:hover, .no-decoration:active, .no-decoration:focus {
   text-decoration: none;
 }
+
+.bootbox-alert > .modal-dialog {
+  margin: calc(100vh/2 - 100px) auto !important;
+}
