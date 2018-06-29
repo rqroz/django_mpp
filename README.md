@@ -6,29 +6,11 @@ More information about this can be found at Chapter 11 of the book Digital Image
 
 Quick start
 -----------
-1. Add "mpp" to your INSTALLED_APPS setting like this::
+1. Get a copy of this repo:
 
-    ```python
-    INSTALLED_APPS = [
-        ...
-        'mpp',
-    ]
+    ```
+    $ git clone https://github.com/rqroz/django_mpp.git
     ```
 
-2. Include the polls URLconf in your project urls.py like this::
-
-    ```python
-  	path('mpp/', include('mpp.urls')),
-  	```
-
-3. Go to the mpp's subfolder called 'opencv' and in processor.py you will find:
-
-    ```python
-    from django_mpp.settings import BASE_DIR
-  	```
-
-    Change the 'django_mpp' part to the app that was created with the creation
-    of your project (it usually has the same name of your project folder).
-
-4. Start the development server and visit http://127.0.0.1:8000/mpp/
+2. Start the development server and visit http://127.0.0.1:8000/
    and start having fun!
