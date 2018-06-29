@@ -112,7 +112,7 @@ void mpp(){
 }
 
 bool read_from_file(string base_path){
-	string path = base_path + "/mpp/opencv/points.txt";
+	string path = base_path + "/opencv/points.txt";
 	cout << "Reading from: " << path << endl;
 	string line;
 	ifstream points_file(path.c_str());
@@ -136,7 +136,7 @@ bool read_from_file(string base_path){
 }
 
 bool write_to_file(string base_path){
-	string path = base_path + "/mpp/opencv/pointsfile.txt";
+	string path = base_path + "/opencv/pointsfile.txt";
 	cout << "Writing to: " << path << endl;
 	ofstream points_file(path.c_str());
 	if(points_file.is_open()){
@@ -163,7 +163,7 @@ bool write_to_file(string base_path){
 		}
 		line(img, ps[poly.size()-1], ps[0], Scalar(0), 1, CV_AA, 0);
 
-		string save_to = base_path + "/mpp/static/mpp/img/opencv/result.png";
+		string save_to = base_path + "/static/mpp/img/opencv/result.png";
 		bool saved = imwrite(save_to.c_str(), img);
 
 		cout << "saved: " << saved << endl;
@@ -200,6 +200,8 @@ bool validate_points(){
 
 int main(int argc, const char **argv){
 	if(argc < 2){ exit(1); }
+
+
 
 	string base_path = argv[1];
 

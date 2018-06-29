@@ -99,7 +99,7 @@ $(function(){
   $('.popover-dismiss').popover({
     trigger: 'focus'
   });
-  
+
   $("#mpp-popover").popover({
       html : true,
       content: function() {
@@ -136,7 +136,7 @@ $(function(){
     let stringifiedPoints = JSON.stringify(selectedPoints)
     let data = {'points': stringifiedPoints};
 
-    $.post("/", data, function(response){
+    $.post(window.location.href, data, function(response){
       if(response.error !== undefined){
         bootbox.alert(response.error);
       }else if(response.points !== undefined){

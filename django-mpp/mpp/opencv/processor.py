@@ -1,6 +1,8 @@
 import os, json
 from operator import attrgetter
-from django_mpp.settings import BASE_DIR
+from mpp import __file__ as mpp_init_path
+
+APP_PATH = os.path.dirname(mpp_init_path)
 
 class Point(object):
     def __init__(self, x, y):
@@ -20,13 +22,14 @@ def create_points_from_json(json_str):
 
 
 def write_points_to_file(points):
-    with open(BASE_DIR+'/mpp/opencv/points.txt', 'w') as pfile:
+    with open(APP_PATH+'/opencv/points.txt', 'w') as pfile:
         for p in points:
             pfile.write("%d %d\n"%(p.x, p.y))
 
 def recover_points_from_file():
     points = []
-    with open(BASE_DIR+'/mpp/opencv/pointsfile.txt', 'r') as rfile:
+    print(APP_PATH)
+    with open(APP_PATH+'/opencv/pointsfile.txt', 'r') as rfile:
         for line in rfile:
             parts = line.split()
             x = float(parts[0])

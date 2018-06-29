@@ -1,11 +1,15 @@
 from .modules import *
 from mpp.opencv.processor import *
+from mpp import __file__ as mpp_init_path
 
-import os, subprocess
+import os
+
+APP_PATH = os.path.dirname(mpp_init_path)
 
 class IndexView(View):
     matrix_dim = 32
-    command_line = BASE_DIR+'/mpp/opencv/cfiles/MPP '+BASE_DIR
+
+    command_line = APP_PATH+'/opencv/cfiles/MPP '+APP_PATH
 
     def get(self, request, *args, **kwargs):
         context = {
