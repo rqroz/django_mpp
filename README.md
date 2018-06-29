@@ -12,5 +12,15 @@ Quick start
     $ git clone https://github.com/rqroz/django_mpp.git
     ```
 
+2. Change directory to example's folder
+
+  ```
+  $ cd example
+  ```
+
 2. Start the development server and visit http://127.0.0.1:8000/
    and start having fun!
+
+   ```
+   $ python3 manage.py runserver
+   ```
