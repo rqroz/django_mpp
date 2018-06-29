@@ -19,7 +19,7 @@ Quick start
     ```
 
 2. Start the development server and visit http://127.0.0.1:8000/
-   and start having fun!
+   and have some fun!
 
    ```
    $ python3 manage.py runserver
