@@ -24,3 +24,5 @@ Quick start
    ```
    $ python3 manage.py runserver
    ```
+
+- Note: For now just ignore (or even delete your copy of) the 'django-mpp' folder.
