@@ -8,9 +8,9 @@ Quick start
 -----------
 1. Add "mpp" to your INSTALLED_APPS setting like this::
 
-    INSTALLED_APPS = [
-        ...
-        'mpp',
+    INSTALLED_APPS = [<br/>
+        ...<br/>
+        'mpp',<br/>
     ]
 
 2. Include the polls URLconf in your project urls.py like this::
