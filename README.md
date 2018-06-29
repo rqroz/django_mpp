@@ -14,7 +14,7 @@ Quick start
         'mpp',
     ]
     ```
-    
+
 2. Include the polls URLconf in your project urls.py like this::
 
     ```python
@@ -24,7 +24,7 @@ Quick start
 3. Go to the mpp's subfolder called 'opencv' and in processor.py you will find:
 
     ```python
-      from django_mpp.settings import BASE_DIR
+    from django_mpp.settings import BASE_DIR
   	```
 
     Change the 'django_mpp' part to the app that was created with the creation
