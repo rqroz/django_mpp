@@ -48,7 +48,8 @@ void dfs(int x, int y){
 			dfs(nx, ny);
 	}
 }
-void extrai_pontos(){
+
+void extract_points(){
 	for(int i=0; i<MAXN && v.empty(); i++){
 		for(int j=0; j<MAXN && v.empty(); j++){
 			if(M[i][j] == 1)
@@ -73,6 +74,7 @@ void extrai_pontos(){
 	v= aux;
 	n= v.size();
 }
+
 void mpp(){
 	point vk, vl=v[0], br=v[0], pr=v[0];
 	poly.push_back(v[0]);
@@ -109,10 +111,11 @@ void mpp(){
 	}
 }
 
-void ler_arquivo(){
-	char path[] = "/home/rqroz/Desktop/polygon_finder/polygons/website/opencv/points.txt";
+bool read_from_file(string base_path){
+	string path = base_path + "/website/opencv/points.txt";
+	cout << "Reading from: " << path << endl;
 	string line;
-	ifstream points_file(path);
+	ifstream points_file(path.c_str());
 	if(points_file.is_open()){
 		// cout << "Opened points file.\n";
 		while (getline(points_file, line)){
@@ -125,16 +128,19 @@ void ler_arquivo(){
 			n++;
 		}
 		points_file.close();
+		return true;
+	}else{
+		cout << "Could not open the file...\n";
+		return false;
 	}
-	else cout << "Could not open the file...\n";
 }
-void imprime_arquivo(){
-	char path[] = "/home/rqroz/Desktop/polygon_finder/polygons/website/opencv/pointsfile.txt";
-	ofstream points_file(path);
-	if(points_file.is_open()){
-		// cout << "Opened points file.\n";
 
-		for(int i=0; i<poly.size(); i++)
+bool write_to_file(string base_path){
+	string path = base_path + "/website/opencv/pointsfile.txt";
+	cout << "Writing to: " << path << endl;
+	ofstream points_file(path.c_str());
+	if(points_file.is_open()){
+		for(u_int i=0; i<poly.size(); i++)
 			points_file << poly[i].x << " " << poly[i].y << endl;
 		points_file.close();
 
@@ -149,23 +155,26 @@ void imprime_arquivo(){
 				}
 
 		vector<Point> ps;
-		for(int i=0; i<poly.size(); ++i)
+		for(u_int i=0; i<poly.size(); ++i)
 			ps.push_back(Point(10*poly[i].y, 10*poly[i].x));
 
-		for(int i=0; i<poly.size() - 1; ++i){
+		for(u_int i=0; i<poly.size() - 1; ++i){
 			line(img, ps[i], ps[i+1], Scalar(0), 1, CV_AA, 0);
 		}
 		line(img, ps[poly.size()-1], ps[0], Scalar(0), 1, CV_AA, 0);
+		
+		string save_to = base_path + "/website/static/img/opencv/result.png";
+		bool saved = imwrite(save_to.c_str(), img);
 
-		bool saved = imwrite("/home/rqroz/Desktop/polygon_finder/polygons/website/static/img/opencv/result.png", img);
-		// bool saved = imwrite("../../static/img/opencv/result.png", img);
-		// imwrite("../../static/img/opencv/result_copy.png", img);
 		cout << "saved: " << saved << endl;
+		return saved;
+	}else{
+		cout << "Could not open the file...\n";
+		return false;
 	}
-	else cout << "Could not open the file...\n";
 }
 
-bool entrada_valida(){
+bool validate_points(){
 	for(int i=0; i<MAXN; i++){
 		for(int j=0; j<MAXN; j++){
 
@@ -188,12 +197,30 @@ bool entrada_valida(){
 
 	return true;
 }
-int main(){
-	//if(ler_padrao() == false) return 0;
-	ler_arquivo();
-	extrai_pontos();
-	if(entrada_valida())
-		mpp();
-	imprime_arquivo();
-	//imprime_padrao();
+
+int main(int argc, const char **argv){
+	if(argc < 2){ exit(1); }
+
+	string base_path = argv[1];
+
+	if(!read_from_file(base_path)){
+		cout << "Could not read from file with base_path: " << base_path << endl;
+		exit(1);
+	}
+
+	extract_points();
+
+	if(!validate_points()){
+		cout << "Could not validate points." << endl;
+		exit(1);
+	}
+
+	mpp();
+
+	if(!write_to_file(base_path)){
+		cout << "Could not write to file with base_path: " << base_path << endl;
+		exit(1);
+	}
+
+	return 0;
 }
