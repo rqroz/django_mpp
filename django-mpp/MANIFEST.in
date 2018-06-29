@@ -1,0 +1,7 @@
+include LICENSE
+include README.rst
+recursive-include mpp/static *
+recursive-include mpp/templates *
+recursive-include mpp/opencv *
+
+recursive-include docs *
