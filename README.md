@@ -4,6 +4,13 @@ Minimum Perimerer Polygon (MPP) is a technique used to represent the shape in a 
 
 More information about this can be found at Chapter 11 of the book Digital Image Processing by Rafael C. Gonzalez, Richard E. Woods.
 
+Important Notes
+-----------
+1. The django view responsible for performing the MPP calls a binary filed generated from a .cpp script. That being said, it is unlikely that this application will properly run on OS X.
+
+2. For now just ignore (or even delete your copy of) the 'django-mpp' folder.
+
+
 Quick start
 -----------
 1. Get a copy of this repo:
@@ -24,5 +31,3 @@ Quick start
    ```
    $ python3 manage.py runserver
    ```
-
-- Note: For now just ignore (or even delete your copy of) the 'django-mpp' folder.
