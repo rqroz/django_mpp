@@ -6,7 +6,7 @@ More information about this can be found at Chapter 11 of the book Digital Image
 
 Important Notes
 -----------
-1. You should be able to run OpenCV libraries with C++ in your machine for this application to work.
+1. You should be able to include OpenCV libraries in your C++ files for this application to work.
 
 2. The django view responsible for performing the MPP calls a binary filed generated from a .cpp script. That being said, it is unlikely that this application will properly run on OS X.
 
