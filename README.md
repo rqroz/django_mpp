@@ -12,6 +12,9 @@ Important Notes
 
 3. For now just ignore (or even delete your copy of) the 'django-mpp' folder.
 
+Demo
+-----------
+![MPP Demo](/example/demo.gif)
 
 Quick start
 -----------
